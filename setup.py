@@ -8,13 +8,16 @@ import logging
 import pytest_bdd
 
 console_logger = logging.getLogger()
+
+firefox_driver = 'webdriver_drivers/firefox'
+chrom_driver = 'webdriver_drivers/chromedriver_x64'
 def setup_module():
     url = pytest.config_file.get("system", "url")
     browser_type = pytest.config_file.get("system", "browser")
     if browser_type == "Chrome":
-        pytest.driver = webdriver.Chrome('webdriver_drivers/chromedriver_x64')
+        pytest.driver = webdriver.Chrome(firefox_driver)
     elif browser_type == "firefox":
-        pytest.driver = webdriver.Firefox(executable_path='webdriver_drivers/firefox')
+        pytest.driver = webdriver.Firefox(executable_path=firefox_driver)
     pytest.wait = WebDriverWait(pytest.driver, timeout=5, poll_frequency=0.3)
     pytest.driver.get(url)
     console_logger.info("start tests ---")

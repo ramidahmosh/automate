@@ -1,4 +1,5 @@
-import datetime
+import time
+from datetime import datetime
 import logging
 import unittest
 
@@ -11,11 +12,15 @@ from selenium.webdriver.common.keys import Keys
 from setup import *
 pytest_check.check_methods.set_stop_on_fail(False)
 
+
+def check_elemnet_visible(elm):
+    pytest.wait.until(EC.visibility_of_element_located((By.XPATH, pytest.locator_config.get('Locators', elm))))
+
+
 def check_element_exsist_by_xpath(elm):
     try:
         logging.info("check if element " + elm + " exist")
-        pytest.wait.until(
-            EC.visibility_of_element_located(By.XPATH, pytest.locator_config.get('Locators', elm)))
+        check_elemnet_visible(elm)
         return True
     except:
         logging.error("did not find  element " + elm )
@@ -30,17 +35,38 @@ def selenuim_take_screenshoot(name):
 def selenium_click(elm):
     try:
         logging.info("find and click on element " + elm)
-        pytest.wait.until(EC.visibility_of_element_located(By.XPATH, pytest.locator_config.get('Locators', elm)))
-        pytest.driver.find_element_by_xpath(elm).click()
+        check_elemnet_visible(elm)
+        pytest.driver.find_element_by_xpath(pytest.locator_config.get('Locators', elm)).click()
 
     except NoSuchElementException:
         allure.attach("selenium logging", "no such element " + elm + " cannot click on it !!")
         selenuim_take_screenshoot(elm)
 
 
+def selenium_type(elm,str):
+    try:
+        logging.info("find and type " + str + " on element " + elm)
+        check_elemnet_visible(elm)
+        pytest.driver.find_element_by_xpath(pytest.locator_config.get('Locators', elm)).send_keys(str)
+
+    except NoSuchElementException:
+        allure.attach("selenium logging", "no such element " + elm + " cannot type on it !!")
+        selenuim_take_screenshoot(elm)
+
+def selenium_get_elements_by_xpath(elm):
+    try:
+        logging.info("get element " +elm + " by xpath")
+        check_elemnet_visible(elm)
+        return pytest.driver.find_element_by_xpath(elm)
+
+    except NoSuchElementException:
+        allure.attach("selenium logging", "no such element " + elm + " cannot type on it !!")
+        selenuim_take_screenshoot(elm)
+
+
 def selenium_get_element_text(elm):
     try:
-        pytest.wait.until(EC.visibility_of_element_located(By.XPATH, pytest.locator_config.get('Locators', elm)))
+        check_elemnet_visible(elm)
         text = pytest.driver.find_element_by_xpath(pytest.locator_config.get('Locators', elm)).text
         logging.info("element text is " + text)
         return text
@@ -51,7 +77,7 @@ def selenium_get_element_text(elm):
 
 def selenium_get_element_by_class(class_name):
     try:
-        #pytest.wait.until(EC.visibility_of_element_located((By., elm)))
+        pytest.wait.until(EC.visibility_of_element_located((By.CLASS_NAME, pytest.locator_config.get('Locators', class_name))))
         elements = pytest.driver.find_elements_by_class_name(pytest.locator_config.get('Locators', class_name))
         #logging.info("element text is " + text)
         return elements
@@ -89,6 +115,7 @@ def selenuim_wait_loop(elm):
     for i in range(0, 5):
         if check_element_exsist_by_xpath_delete_me(elm):
             logging.info("found the element " + elm + " after " + str(i)+ " retries")
+            time.sleep(1)
             return
     logging.info("did not find the element " + elm + " after 5 retries")
 
@@ -97,7 +124,7 @@ def check_element_exsist_by_xpath_delete_me(elm):
     try:
         logging.info("check if element " + elm + " exist")
         pytest.wait.until(
-            EC.visibility_of_element_located((By.XPATH, pytest.locator_config.get('Locators', elm))))
+            (EC.visibility_of_element_located((By.XPATH, pytest.locator_config.get('Locators', elm)))) )
         return True
     except:
         logging.info("did not find  element " + elm )
