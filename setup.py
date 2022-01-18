@@ -5,7 +5,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import allure
 import pytest
 import logging
-
+import pytest_bdd
 
 console_logger = logging.getLogger()
 def setup_module():
