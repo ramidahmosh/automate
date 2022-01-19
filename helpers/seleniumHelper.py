@@ -1,8 +1,7 @@
 import time
 from datetime import datetime
-import logging
 import unittest
-
+from selenium.webdriver.support import expected_conditions as EC
 import pytest_check
 import pytest_check as check
 from selenium.common.exceptions import NoSuchElementException
