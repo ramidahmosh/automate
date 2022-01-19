@@ -57,7 +57,17 @@ def selenium_get_elements_by_xpath(elm):
     try:
         logging.info("get element " +elm + " by xpath")
         check_elemnet_visible(elm)
-        return pytest.driver.find_element_by_xpath(elm)
+        return pytest.driver.find_element_by_xpath(pytest.locator_config.get('Locators', elm))
+
+    except NoSuchElementException:
+        allure.attach("selenium logging", "no such element " + elm + " cannot type on it !!")
+        selenuim_take_screenshoot(elm)
+
+def selenium_get_elements_count_by_xpath(elm):
+    try:
+        logging.info("get element " +elm + " by xpath")
+        check_elemnet_visible(elm)
+        return pytest.driver.find_elements_by_xpath(pytest.locator_config.get('Locators', elm))
 
     except NoSuchElementException:
         allure.attach("selenium logging", "no such element " + elm + " cannot type on it !!")

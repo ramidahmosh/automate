@@ -1,13 +1,14 @@
-import logging
+from setup import *
 
 from pytest_bdd import scenarios, scenario, when, given, then, parsers
 from pytest_testrail.plugin import pytestrail
 
 from helpers.seleniumHelper import selenium_click, check_element_exsist_by_xpath, selenium_type, \
-    selenium_get_elements_by_xpath, selenuim_wait_loop
-from setup import *
+    selenium_get_elements_by_xpath, selenuim_wait_loop, selenium_get_elements_count_by_xpath
 
+from test.step_defs.search_engine.ebay_search_helper import search_for_product, check_search_results_count
 
+scenarios('../../feature/ebay_search.feature')
 
 @allure.description("""
 open ebay site , \n
@@ -40,14 +41,12 @@ def check_browser_google_website():
 @when(parsers.parse('type a "{search_word}"'))
 def type_keyword(search_word):
     with allure.step('type a ' + search_word):
-        selenium_type('ebay.search.textbox',search_word)
-        selenium_click('ebay.home.search.button')
-    #
+        search_for_product(search_word)
+
 @then('check there is more than one results')
 def check_there_is_more_than_one_results():
     with allure.step('check there is more than one results'):
-        selenuim_wait_loop('ebay.search.result.elements')
-        elements = selenium_get_elements_by_xpath('ebay.search.result.elements')
-        print(elements)
+        check_search_results_count()
+
 
 
