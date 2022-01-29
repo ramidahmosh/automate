@@ -32,8 +32,10 @@ def run_command_return_string(ssh_client, cmd):
     lines = stdout.readlines()
     return str(lines)
 
+
 def run_command(ssh_client, cmd):
     stdin, stdout, stderr = ssh_client.exec_command(cmd)
+
 
 def run_command_return_json(ssh_client, cmd):
     stdin, stdout, stderr = ssh_client.exec_command(cmd)

@@ -21,6 +21,8 @@
 ### run test with allure ( pytest report):
  - python3 -m pytest  --alluredir=report test/step_defs/misc/test_ebay_prices.py
  - allure serve report 
+ - run all tests : python3 -m pytest  --alluredir=report test/step_defs/*
+
 
 
 ### run repeated test with different input:

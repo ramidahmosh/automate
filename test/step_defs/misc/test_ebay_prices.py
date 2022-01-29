@@ -1,9 +1,10 @@
-from helpers.seleniumHelper import check_element_exsist_by_xpath, selenium_get_element_by_class
+from helpers.seleniumHelper import check_element_exsist_by_xpath, selenium_get_element_by_class, \
+    wait_for_elemnet_visible
 from setup import *
 
 
 def test_ebay_high_low_proces():
-    check_element_exsist_by_xpath("page.elements.prices")
+    wait_for_elemnet_visible("page.elements.prices")
     element = selenium_get_element_by_class("page.price.element.class")
     prices = []
     for i in element:

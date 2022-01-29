@@ -1,7 +1,7 @@
 import logging
 
-from helpers.seleniumHelper import selenium_type, selenium_click, selenuim_wait_loop, \
-    selenium_get_elements_count_by_xpath
+from helpers.seleniumHelper import selenium_type, selenium_click, \
+    selenium_get_elements_count_by_xpath, wait_for_elemnet_visible
 
 
 def search_for_product(product_name):
@@ -10,8 +10,8 @@ def search_for_product(product_name):
 
 
 def check_search_results_count():
-    selenuim_wait_loop('ebay.search.result.elements')
+    wait_for_elemnet_visible('ebay.search.result.elements')
     elements = selenium_get_elements_count_by_xpath('ebay.search.result.elements')
     count = len(elements)
-    logging.info(("search results count is ") + str(count))
+    logging.info("search results count is " + str(count))
     assert count > 1

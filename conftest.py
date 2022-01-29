@@ -5,6 +5,9 @@ import logging
 import os
 import shutil
 from datetime import datetime
+
+from selenium.webdriver.support.wait import WebDriverWait
+
 from setup import *
 
 
@@ -45,6 +48,30 @@ def pytest_configure(config):
     shutil.move(report_dir+"/", report_dir_old+"/" + report_dir + "-" + str(datetime.today()))
     os.mkdir(report_dir)
     os.mkdir(report_dir + screenShoot_file)
+    open_browser()
+
+def open_browser():
+    url = pytest.config_file.get("system", "url")
+    browser_type = pytest.config_file.get("system", "browser")
+    browser_driver_path = pytest.config_file.get("system", "driver_path")
+    if browser_type == "Chrome":
+        pytest.driver = webdriver.Chrome(browser_driver_path)
+    elif browser_type == "firefox":
+        pytest.driver = webdriver.Firefox(executable_path=browser_driver_path)
+    # explicit wait
+    pytest.wait = WebDriverWait(pytest.driver, timeout=10, poll_frequency=1)
+
+    pytest.driver.implicitly_wait(5)
+    pytest.driver.get(url)
+    logging.info("start tests ---")
+
+
+def pytest_unconfigure(config):
+    """
+    called before test process is exited.
+    """
+    logging.info("end tests ---")
+    pytest.driver.close()
 
 
 class AllureLoggingHandler(logging.Handler):

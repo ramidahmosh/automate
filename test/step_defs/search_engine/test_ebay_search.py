@@ -3,8 +3,7 @@ from setup import *
 from pytest_bdd import scenarios, scenario, when, given, then, parsers
 from pytest_testrail.plugin import pytestrail
 
-from helpers.seleniumHelper import selenium_click, check_element_exsist_by_xpath, selenium_type, \
-    selenium_get_elements_by_xpath, selenuim_wait_loop, selenium_get_elements_count_by_xpath
+from helpers.seleniumHelper import check_element_exsist_by_xpath
 
 from test.step_defs.search_engine.ebay_search_helper import search_for_product, check_search_results_count
 
