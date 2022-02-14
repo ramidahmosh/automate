@@ -22,4 +22,7 @@ def check_home_page():
     except:
         logging.error("url should be : " + pytest.config_file.get("system", "url") + " instead we have " + url)
 
-
+"""
+def teardown_session():
+    logging.info("end tests")
+"""

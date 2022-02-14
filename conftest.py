@@ -51,6 +51,7 @@ def pytest_configure(config):
     os.mkdir(report_dir + screenShoot_file)
     open_browser()
 
+
 def open_browser():
     url = pytest.config_file.get("system", "url")
     browser_type = pytest.config_file.get("system", "browser")
@@ -67,9 +68,9 @@ def open_browser():
     logging.info("start tests ---")
 
 
-def pytest_unconfigure(config):
+def pytest_sessionfinish():
     """
-    called before test process is exited.
+        called after all tests are finish
     """
     logging.info("end tests ---")
     pytest.driver.close()
