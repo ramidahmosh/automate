@@ -5,10 +5,11 @@ import logging
 import os
 import shutil
 from datetime import datetime
-
+import allure
+from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
-
-from setup import *
+import pytest_bdd
+from setup import pytest
 
 
 screenShoot_file = "/screenShoot"
