@@ -1,10 +1,8 @@
 import allure
 from datetime import datetime
-import unittest
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 import pytest_check
-import pytest_check as check
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -103,67 +101,12 @@ def selenium_get_element_by_class(class_name):
         return "did not see it"
 
 
-def check_is_in(elm1, elm2, msg):
-    try:
-        Checker().check_is_in(elm1, elm2, msg)
-    except:
-        check.is_in(elm1, elm2)  # , "is " + elm1 + " in " + elm2 + " has Fail check !!!!!!!")
-
-
-def check_values(elm1, elm2, msg):
-    try:
-        Checker().check_values(elm1, elm2, msg)
-    except:
-        check.equal(elm1, elm2)  # , "comparing between given " + str(elm1) + "barcode and expected  " + str(elm2))
-
-
-def check_values_not_empty(elm1, elm2, msg):
-    try:
-        Checker().check_values(elm1, elm2, msg)
-    except:
-        check.not_equal(elm1, elm2)  # , "comparing between given " + str(elm1) + "barcode and expected  " + str(elm2))
-
-
-def click_Esc_keyborad():
+def click_esc_keyborad():
     webdriver.ActionChains(pytest.driver).send_keys(Keys.ESCAPE).perform()
 
 
 def refresh_page():
-    url = pytest.driver.current_url
-    if url.find(":90") == -1:
-        logging.info(" refresh shopping ui")
-        # we are not in admin mode , it's shopping mode
-        pytest.driver.refresh()
-    else:
-        # we are in admin mode
-        logging.info(" refresh admin mode ui")
-        pytest.driver.get("http://localhost")
+    pytest.driver.refresh()
 
-
-
-class Checker(unittest.TestCase):
-    def check_values(self, elm1, elm2, msg):
-        with self.subTest("check-equal the values " + elm1 + " with " + elm2):
-            with allure.step("check-equal the values " + elm1 + " with " + elm2):
-                try:
-                    self.assertEqual(elm1, elm2)
-                    logging.info("compare between " + elm1 + "  == " + elm2 + " == > passed")
-                    logging.info(msg)
-                except:
-                    logging.error(msg)
-                    selenuim_take_screenshoot("check_equal_values failure")
-                    raise
-
-    def check_is_in(self, elm1, elm2, msg):
-        with self.subTest("check-is-in value " + elm1 + " in " + elm2):
-            with allure.step("check-is-in value " + elm1 + " in " + elm2):
-                try:
-                    self.assertIn(elm1, elm2)
-                    logging.info(" value " + elm1 + "  is in  " + elm2 + "  ==> passed")
-                    logging.info(msg)
-                except:
-                    logging.error(msg)
-                    selenuim_take_screenshoot("check-is-in failure")
-                    raise
 
 

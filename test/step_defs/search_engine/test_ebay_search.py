@@ -7,8 +7,8 @@ from pytest_testrail.plugin import pytestrail
 from helpers.seleniumHelper import check_element_exsist_by_xpath
 from test.step_defs.search_engine.ebay_search_helper import search_for_product, check_search_results_count
 from setup import setup_function,teardown_function
-
 scenarios('../../feature/ebay_search.feature')
+
 
 @allure.description("""
 open ebay site , \n
